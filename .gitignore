@@ -33,3 +33,6 @@
 
 # Build dictionary
 build
+
+# Cache
+.cache

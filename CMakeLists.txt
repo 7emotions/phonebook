@@ -12,7 +12,7 @@ if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
 endif()
 
 # Source
-set(PROJECT_SOURCES src/main.cpp)
+set(PROJECT_SOURCES src/main.cpp src/contact/contact.cpp src/list/list.cpp)
 
 add_executable(${PROJECT_NAME} ${PROJECT_SOURCES})
 
