@@ -44,7 +44,7 @@ class NodeList {
 
 	T& operator[](unsigned int i) {
 		auto node = head;
-		if (i + 1 >= size_) {
+		if (i >= size_) {
 			throw std::runtime_error("index out of range.");
 		}
 		for (size_t _ = 0; _ < i; _++) {
@@ -72,6 +72,7 @@ class NodeList {
 
 		if (node->data_ > element) {
 			head = new Node(element, head);
+			size_ += 1;
 			return;
 		}
 
@@ -87,5 +88,38 @@ class NodeList {
 		size_ += 1;
 	}
 
-	void pop(unsigned int i = 0);
+	void pop(unsigned int i = 0) {
+		auto node = head;
+		if (i >= size_) {
+			throw std::runtime_error("index out of range.");
+		}
+
+		if (i == 0) {
+			head = head->next_;
+			return;
+		}
+
+		for (size_t _ = 0; _ < i - 1; _++) {
+			node = node->next_;
+		}
+		node->next_ = node->next_->next_;
+	}
+
+	size_t search(const T& element) {
+		if (head == nullptr) {
+			return -1;
+		}
+
+		auto node = head;
+		size_t i = 0;
+
+		while (node != nullptr) {
+			if (node->data_ == element) {
+				return i;
+			}
+			node = node->next_;
+			i++;
+		}
+		return -1;
+	}
 };
