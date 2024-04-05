@@ -1,7 +1,7 @@
 /**
  * @file contact.hpp
  * @author Lorenzo Feng (lorenzo.feng@njust.edu.cn)
- * @brief Description class for contacts
+ * @brief 联系人描述类
  * @version 0.1
  * @date 2024-04-04
  *
@@ -14,7 +14,7 @@
 
 class Contact {
    public:
-	explicit Contact();
+	explicit Contact() = default;
 	/**
 	 * @brief Construct a new Contact object
 	 *
@@ -24,19 +24,19 @@ class Contact {
 	explicit Contact(std::string name, std::string code)
 		: name_(name), code_(code) {}
 
-	inline bool operator>=(Contact &contact) {
+	inline bool operator>=(const Contact &contact) {
 		return this->name_ >= contact.name_;
 	}
-	inline bool operator>(Contact &contact) {
+	inline bool operator>(const Contact &contact) {
 		return this->name_ > contact.name_;
 	}
-	inline bool operator<(Contact &contact) {
+	inline bool operator<(const Contact &contact) {
 		return this->name_ < contact.name_;
 	}
-	inline bool operator<=(Contact &contact) {
+	inline bool operator<=(const Contact &contact) {
 		return this->name_ <= contact.name_;
 	}
-	inline bool operator==(Contact &contact) {
+	inline bool operator==(const Contact &contact) {
 		return this->name_ == contact.name_;
 	}
 
