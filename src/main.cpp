@@ -27,7 +27,8 @@ bool controller() {
 				  << "\tlist\t"
 				  << "to list data of a phonebook or contacts.\n"
 				  << "\tinfo\t"
-				  << "to list information about the command.\n";
+				  << "to list information about the command.\n"
+				  << "\texit\texit app.";
 		return true;
 	}
 
