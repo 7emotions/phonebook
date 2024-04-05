@@ -24,6 +24,8 @@ class Contact {
 	explicit Contact(std::string name, std::string code)
 		: name_(name), code_(code) {}
 
+	Contact(std::string name) : name_(name), code_("") {}
+
 	inline bool operator>=(const Contact &contact) {
 		return this->name_ >= contact.name_;
 	}

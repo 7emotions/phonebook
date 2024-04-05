@@ -88,7 +88,7 @@ class NodeList {
 		size_ += 1;
 	}
 
-	void pop(unsigned int i = 0) {
+	T pop(unsigned int i = 0) {
 		auto node = head;
 		if (i >= size_) {
 			throw std::runtime_error("index out of range.");
@@ -96,16 +96,18 @@ class NodeList {
 
 		if (i == 0) {
 			head = head->next_;
-			return;
+			return node->data_;
 		}
 
 		for (size_t _ = 0; _ < i - 1; _++) {
 			node = node->next_;
 		}
+		auto data = node->next_->data_;
 		node->next_ = node->next_->next_;
+		return data;
 	}
 
-	size_t search(const T& element) {
+	int search(const T& element) {
 		if (head == nullptr) {
 			return -1;
 		}

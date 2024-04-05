@@ -5,7 +5,16 @@ class PhoneBookApp::Impl : public NodeList<PhoneBook> {
 	Impl() : NodeList<PhoneBook>() {}
 
 	void NewBook(const std::string& bookname) { push(PhoneBook(bookname)); }
-	PhoneBook PopBook(const std::string& bookname) { return PhoneBook(""); }
+
+	PhoneBook PopBook(const std::string& bookname) {
+		auto index = search(PhoneBook(bookname));
+		if (index == -1) {
+			std::cout << "No such phonebook." << std::endl;
+			return PhoneBook("");
+		}
+		return pop(index);
+	}
+
 	void LstBook() {
 		std::cout << "PhoneBook List:" << std::endl;
 		print();
@@ -35,7 +44,18 @@ class PhoneBookApp::Impl : public NodeList<PhoneBook> {
 	}
 
 	Contact PopContact(const std::string& bookname, const std::string& name) {
-		return Contact();
+		auto index = search(PhoneBook(bookname));
+		if (index == -1) {
+			std::cout << "No such phonebook." << std::endl;
+			return Contact();
+		}
+		auto node = operator[](index);
+		index = node.search(Contact(name));
+		if (index == -1) {
+			std::cout << "No such contact." << std::endl;
+			return Contact();
+		}
+		return node.pop(index);
 	}
 
 	void LstContact(const std::string& bookname) {
