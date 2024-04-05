@@ -100,14 +100,14 @@ bool controller() {
 		}
 		auto arg = pos->str();
 		if (arg == "book") {
-			app.LstBook();
+			app.ListBook();
 		} else if (arg == "contact") {
 			if (++pos == end) {
 				std::cout << "Missing values." << std::endl;
 				return true;
 			}
 			auto value1 = pos->str();
-			app.LstContact(value1);
+			app.ListContact(value1);
 		} else {
 			std::cout
 				<< "Wrong argument for command `list`. Use `info list` to "

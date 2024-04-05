@@ -1,7 +1,7 @@
 /**
  * @file app.hpp
  * @author Lorenzo Feng (lorenzo.feng@njust.edu.cn)
- * @brief 电话簿应用业务接口类
+ * @brief IMPL Interface for PhoneBook Application
  * @version 0.1
  * @date 2024-04-05
  *
@@ -17,15 +17,82 @@ class PhoneBookApp {
 	PhoneBookApp();
 	~PhoneBookApp() = default;
 
+	/**
+	 * @brief Newly add a phonebook named after `bookname`.
+	 *
+	 * @param bookname name of the new phonebook
+	 */
 	void NewBook(const std::string& bookname);
+
+	/**
+	 * @brief Delete a phonebook from phonebook list. Use `list book` to view
+	 * the name of phonebooks.
+	 *
+	 * @param bookname name of the phonebook to delete
+	 * @return PhoneBook phonebook deleted
+	 */
 	PhoneBook PopBook(const std::string& bookname);
-	void LstBook();
 
+	/**
+	 * @brief List all phonebooks.
+	 *
+	 */
+	void ListBook();
+
+	/**
+	 * @brief Edit the name of the phonebook.
+	 *
+	 * @param bookname name to edit
+	 * @param alter name to adopt
+	 */
+	void EditBook(const std::string& bookname, const std::string& alter);
+
+	/**
+	 * @brief Newly add a `contact` in phonebook `bookname`.
+	 *
+	 * @param bookname
+	 * @param contact
+	 */
 	void NewContact(const std::string& bookname, const Contact& contact);
-	Contact PopContact(const std::string& bookname, const std::string& name);
-	void LstContact(const std::string& bookname);
 
+	/**
+	 * @brief Delete a contact from phonebook list. Use `list contact
+	 * <phonebook>` to view all contacts in phonebook `bookname`.
+	 *
+	 * @param bookname name of the phonebook
+	 * @param name name of the contact
+	 * @return Contact contact deleted
+	 */
+	Contact PopContact(const std::string& bookname, const std::string& name);
+
+	/**
+	 * @brief List all contacts in phonebook `bookname`.
+	 *
+	 * @param bookname
+	 */
+	void ListContact(const std::string& bookname);
+
+	/**
+	 * @brief Edit contact information.
+	 *
+	 * @param bookname phonebook name
+	 * @param contact contact to modify
+	 * @param alter contact to adopt
+	 */
+	void EditContact(const std::string& bookname, const Contact& contact,
+					 const Contact& alter);
+
+	/**
+	 * @brief Import data.
+	 *
+	 * @param path file path of the resource
+	 */
 	void ExImport(const std::string& path);
+	/**
+	 * @brief Export data.
+	 *
+	 * @param bookname name of the phonebook to export
+	 */
 	void ExExport(const std::string& bookname);
 
    private:

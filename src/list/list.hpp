@@ -1,7 +1,7 @@
 /**
  * @file list.hpp
  * @author Lorenzo Feng (lorenzo.feng@njust.edu.cn)
- * @brief 链表功能类
+ * @brief Base Sorted Node List
  * @version 0.1
  * @date 2024-04-04
  *
@@ -96,6 +96,7 @@ class NodeList {
 
 		if (i == 0) {
 			head = head->next_;
+			size_ -= 1;
 			return node->data_;
 		}
 
@@ -104,6 +105,7 @@ class NodeList {
 		}
 		auto data = node->next_->data_;
 		node->next_ = node->next_->next_;
+		size_ -= 1;
 		return data;
 	}
 

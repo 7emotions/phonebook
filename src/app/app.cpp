@@ -15,7 +15,7 @@ class PhoneBookApp::Impl : public NodeList<PhoneBook> {
 		return pop(index);
 	}
 
-	void LstBook() {
+	void ListBook() {
 		std::cout << "PhoneBook List:" << std::endl;
 		print();
 	}
@@ -49,16 +49,21 @@ class PhoneBookApp::Impl : public NodeList<PhoneBook> {
 			std::cout << "No such phonebook." << std::endl;
 			return Contact();
 		}
-		auto node = operator[](index);
-		index = node.search(Contact(name));
+
+		auto node = head;
+		for (int _ = 0; _ < index; _++) {
+			node = node->next_;
+		}
+		index = node->data_.search(Contact(name));
+
 		if (index == -1) {
 			std::cout << "No such contact." << std::endl;
 			return Contact();
 		}
-		return node.pop(index);
+		return node->data_.pop(index);
 	}
 
-	void LstContact(const std::string& bookname) {
+	void ListContact(const std::string& bookname) {
 		auto node = head;
 
 		if (node == nullptr) {
@@ -78,7 +83,8 @@ class PhoneBookApp::Impl : public NodeList<PhoneBook> {
 			return;
 		}
 
-		std::cout << "Contacts in Phonebook[" << bookname << "]\n";
+		std::cout << "Contacts in Phonebook [" << bookname
+				  << "] Mumber:" << node->data_.size() << "\n";
 		node->data_.print();
 	}
 
@@ -94,7 +100,7 @@ void PhoneBookApp::NewBook(const std::string& bookname) {
 PhoneBook PhoneBookApp::PopBook(const std::string& bookname) {
 	return impl_->PopBook(bookname);
 }
-void PhoneBookApp::LstBook() { return impl_->LstBook(); }
+void PhoneBookApp::ListBook() { return impl_->ListBook(); }
 
 void PhoneBookApp::NewContact(const std::string& bookname,
 							  const Contact& contact) {
@@ -104,8 +110,8 @@ Contact PhoneBookApp::PopContact(const std::string& bookname,
 								 const std::string& name) {
 	return impl_->PopContact(bookname, name);
 }
-void PhoneBookApp::LstContact(const std::string& bookname) {
-	return impl_->LstContact(bookname);
+void PhoneBookApp::ListContact(const std::string& bookname) {
+	return impl_->ListContact(bookname);
 }
 
 void PhoneBookApp::ExImport(const std::string& path) {

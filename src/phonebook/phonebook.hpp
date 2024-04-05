@@ -1,7 +1,7 @@
 /**
  * @file phonebook.hpp
  * @author Lorenzo Feng (lorenzo.feng@njust.edu.cn)
- * @brief 电话簿描述类
+ * @brief PhoneBook Descriptor
  * @version 0.1
  * @date 2024-04-05
  *

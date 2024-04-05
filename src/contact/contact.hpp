@@ -1,7 +1,7 @@
 /**
  * @file contact.hpp
  * @author Lorenzo Feng (lorenzo.feng@njust.edu.cn)
- * @brief 联系人描述类
+ * @brief Contact Descriptor
  * @version 0.1
  * @date 2024-04-04
  *
