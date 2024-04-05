@@ -6,7 +6,7 @@
 
 ## 部署
 
-在终端运行如下指令即可安装
+在终端运行如下指令即可完成部署
 
 ``` bash
 git clone https://github.com/7emotions/phonebook.git
