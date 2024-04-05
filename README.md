@@ -1,6 +1,6 @@
 # phonebook
 
-用于帮助管理电话簿数据的bash应用程序。
+用于管理电话簿数据的bash应用程序。
 
 ![overview](images/overview.png)
 
