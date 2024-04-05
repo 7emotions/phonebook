@@ -2,7 +2,7 @@
 
 class PhoneBookApp::Impl : public NodeList<PhoneBook> {
    public:
-	Impl() = default;
+	Impl() : NodeList<PhoneBook>() {}
 
 	void NewBook(const std::string& bookname) { push(PhoneBook(bookname)); }
 	PhoneBook PopBook(const std::string& bookname) { return PhoneBook(""); }
@@ -25,17 +25,48 @@ class PhoneBookApp::Impl : public NodeList<PhoneBook> {
 			}
 			node = node->next_;
 		}
+
+		if (node == nullptr) {
+			std::cout << "There`s no phonebook named " << bookname << std::endl;
+			return;
+		}
+
+		node->data_.push(contact);
 	}
+
 	Contact PopContact(const std::string& bookname, const std::string& name) {
 		return Contact();
 	}
-	void LstContact(const std::string& bookname) {}
+
+	void LstContact(const std::string& bookname) {
+		auto node = head;
+
+		if (node == nullptr) {
+			std::cout << "There`s no phonebook." << std::endl;
+			return;
+		}
+
+		while (node != nullptr) {
+			if (node->data_.getName() == bookname) {
+				break;
+			}
+			node = node->next_;
+		}
+
+		if (node == nullptr) {
+			std::cout << "There`s no phonebook named " << bookname << std::endl;
+			return;
+		}
+
+		std::cout << "Contacts in Phonebook[" << bookname << "]\n";
+		node->data_.print();
+	}
 
 	void ExImport(const std::string& path) {}
 	void ExExport(const std::string& bookname) {}
-
-   private:
 };
+
+PhoneBookApp::PhoneBookApp() { impl_ = new PhoneBookApp::Impl(); }
 
 void PhoneBookApp::NewBook(const std::string& bookname) {
 	return impl_->NewBook(bookname);

@@ -32,17 +32,18 @@ class NodeList {
 		if (node == nullptr) {
 			return;
 		}
-		while (node->next_ != nullptr) {
+		while (node != nullptr) {
+			auto pre = node->next_;
 			delete node;
-			node = node->next_;
+			node = pre;
 		}
-		delete node;
+		head = nullptr;
 	}
 
 	int size() const { return size_; }
 
 	T& operator[](unsigned int i) {
-		Node* node = head;
+		auto node = head;
 		if (i + 1 >= size_) {
 			throw std::runtime_error("index out of range.");
 		}
@@ -53,7 +54,7 @@ class NodeList {
 	}
 
 	void print() {
-		Node* node = head;
+		auto node = head;
 		while (node != nullptr) {
 			std::cout << node->data_;
 			node = node->next_;
@@ -61,7 +62,7 @@ class NodeList {
 	}
 
 	void push(const T& element) {
-		Node* node = head;
+		auto node = head;
 
 		if (node == nullptr) {
 			head = new Node(element);

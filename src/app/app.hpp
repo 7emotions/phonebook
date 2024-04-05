@@ -14,7 +14,7 @@
 
 class PhoneBookApp {
    public:
-	PhoneBookApp() = default;
+	PhoneBookApp();
 	~PhoneBookApp() = default;
 
 	void NewBook(const std::string& bookname);
