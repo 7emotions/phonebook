@@ -85,9 +85,9 @@ class PhoneBookApp {
 	/**
 	 * @brief Import data.
 	 *
-	 * @param path file path of the resource
+	 * @param bookname name of phonebook
 	 */
-	void ExImport(const std::string& path);
+	void ExImport(const std::string& bookname);
 	/**
 	 * @brief Export data.
 	 *

@@ -1,8 +1,51 @@
+#include <dirent.h>
+#include <stdlib.h>
+#include <unistd.h>
+
 #include <iostream>
 #include <regex>
 #include <string>
 
 #include "app/app.hpp"
+
+int getFiles(std::vector<std::string> &files, std::string suffix = ".dat") {
+	int FileCnt = 0;
+	DIR *dirp;
+	struct dirent *dp;
+	char buff[1024];
+
+	getcwd(buff, 1024);
+	std::string path(buff);
+
+	dirp = opendir(path.c_str());
+
+	if (dirp == NULL) {
+		std::cout << "Failed to open dir";
+		return 0;
+	}
+
+	while ((dp = readdir(dirp)) != NULL) {
+		std::string curpath(path);
+		if (path.back() != '/') {
+			curpath += std::string("/") + dp->d_name;
+		} else {
+			curpath += dp->d_name;
+		}
+
+		if (dp->d_type == DT_REG) {
+			if (!strrchr(dp->d_name, '.')) {
+				continue;
+			}
+			if (std::string(strrchr(dp->d_name, '.')) == suffix) {
+				auto name = std::string(dp->d_name);
+				files.push_back(name.substr(0, name.find('.')));
+				FileCnt++;
+			}
+		}
+	}
+	closedir(dirp);
+	return FileCnt;
+}
 
 PhoneBookApp app;
 
@@ -28,7 +71,11 @@ bool controller() {
 				  << "to list data of a phonebook or contacts.\n"
 				  << "\tinfo\t"
 				  << "to list information about the command.\n"
-				  << "\texit\texit app.\n";
+				  << "\texit\texit app.\n"
+				  << "\timport\t"
+				  << "to import data from file.\n"
+				  << "\texport\t"
+				  << "to export data.\n";
 		return true;
 	}
 
@@ -145,10 +192,36 @@ bool controller() {
 				<< "\tbook\t\tList all phonebooks" << std::endl
 				<< "\tcontact\t\tList all contacts in phonebook named [name]"
 				<< std::endl;
+		} else if (arg == "import") {
+			std::cout << "Usage:\n\timport [phonebook]" << std::endl
+					  << "Arguments:\n"
+					  << "\t[phonebook]\t\tname of phonebook to import. "
+					  << std::endl;
+		} else if (arg == "export") {
+			std::cout << "Usage:\n\texport [phonebook]" << std::endl
+					  << "Arguments:\n"
+					  << "\t[phonebook]\t\tname of phonebook to export. Use "
+						 "`list book` to check all phonebooks"
+					  << std::endl;
 		} else {
 			std::cout << "Command not found. Use `help` to find out more"
 					  << std::endl;
 		}
+	} else if (pos->str() == "import") {
+		if (++pos == end) {
+			std::cout << "Missing argument." << std::endl;
+			return true;
+		}
+		auto arg = pos->str();
+
+		app.ExImport(arg);
+	} else if (pos->str() == "export") {
+		if (++pos == end) {
+			std::cout << "Missing argument." << std::endl;
+			return true;
+		}
+		auto arg = pos->str();
+		app.ExExport(arg);
 	} else {
 		std::cout << "Command not found. Use `help` to find out more"
 				  << std::endl;
@@ -157,11 +230,12 @@ bool controller() {
 	return true;
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
 	std::cout << "PhoneBookApp Bash, version 0.0.1-release." << std::endl
 			  << "Author:Lorenzo Feng(lorenzo.feng@njust.edu.cn)" << std::endl
 			  << "Type `help` to get more details.\n\n"
-			  << R"( ___________________
+			  << R"(
+ ___________________
 < Hey! Who are you!?>
  -------------------
                        \                    ^    /^
@@ -182,6 +256,15 @@ int main(int argc, char** argv) {
             //    \\               ///-._ _ _ _ _ _ _{^ - - - - ~)"
 			  << std::endl
 			  << std::endl;
+
+	std::vector<std::string> files;
+
+	getFiles(files);
+
+	for (auto file : files) {
+		app.ExImport(file);
+	}
+
 	while (controller()) {
 	}
 	return 0;

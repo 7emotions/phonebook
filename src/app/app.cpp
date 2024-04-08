@@ -1,5 +1,7 @@
 #include "app/app.hpp"
 
+#include <fstream>
+
 class PhoneBookApp::Impl : public NodeList<PhoneBook> {
    public:
 	Impl() : NodeList<PhoneBook>() {}
@@ -88,8 +90,63 @@ class PhoneBookApp::Impl : public NodeList<PhoneBook> {
 		node->data_.print();
 	}
 
-	void ExImport(const std::string& path) {}
-	void ExExport(const std::string& bookname) {}
+	void ExImport(const std::string& bookname) {
+		std::ifstream in(bookname + ".dat", std::ios::binary);
+		if (!in.is_open()) {
+			std::cout << "Failed to read data." << std::endl;
+			throw std::runtime_error("Failed to read data.");
+		}
+
+		if (search(PhoneBook(bookname)) == -1) {
+			NewBook(bookname);
+		}
+
+		auto buffer = new char[1024];
+		while (true) {
+			if (!in.getline(buffer, 1024)) {
+				break;
+			}
+			std::string name(buffer);
+			in.getline(buffer, 1024);
+			std::string code(buffer);
+
+			NewContact(bookname, Contact(name, code));
+		}
+	}
+
+	void ExExport(const std::string& bookname) {
+		std::ofstream out(bookname + ".dat", std::ios::binary);
+		if (!out.is_open()) {
+			std::cout << "Failed to save data." << std::endl;
+			throw std::runtime_error("Failed to save data.");
+		}
+
+		auto node = head;
+
+		if (node == nullptr) {
+			std::cout << "There`s no phonebook." << std::endl;
+			return;
+		}
+
+		while (node != nullptr) {
+			if (node->data_.getName() == bookname) {
+				break;
+			}
+			node = node->next_;
+		}
+
+		if (node == nullptr) {
+			std::cout << "There`s no phonebook named " << bookname << std::endl;
+			return;
+		}
+
+		for (size_t i = 0; i < node->data_.size(); i++) {
+			auto data = node->data_[i];
+
+			out << data.getName() << "\n" << data.getCode() << "\n";
+		}
+		out.close();
+	}
 };
 
 PhoneBookApp::PhoneBookApp() { impl_ = new PhoneBookApp::Impl(); }

@@ -14,7 +14,7 @@
 
 class Contact {
    public:
-	explicit Contact() = default;
+	explicit Contact() : name_(""), code_("") {}
 	/**
 	 * @brief Construct a new Contact object
 	 *
@@ -42,7 +42,10 @@ class Contact {
 		return this->name_ == contact.name_;
 	}
 
-	friend std::istream &operator>>(std::istream &is, Contact &contact);
+	std::string getName() const { return name_; }
+
+	std::string getCode() const { return code_; }
+
 	friend std::ostream &operator<<(std::ostream &os, Contact &contact);
 
    private:

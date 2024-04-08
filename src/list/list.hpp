@@ -40,7 +40,7 @@ class NodeList {
 		head = nullptr;
 	}
 
-	int size() const { return size_; }
+	size_t size() const { return size_; }
 
 	T& operator[](unsigned int i) {
 		auto node = head;
