@@ -12,7 +12,7 @@
 
 #include "phonebook/phonebook.hpp"
 
-class PhoneBookApp {
+class PhoneBookApp final {
    public:
 	PhoneBookApp();
 	~PhoneBookApp() = default;
@@ -81,6 +81,15 @@ class PhoneBookApp {
 	 */
 	void EditContact(const std::string& bookname, const Contact& contact,
 					 const Contact& alter);
+
+	/**
+	 * @brief Search contact information.
+	 *
+	 * @param bookname
+	 * @param name
+	 * @return Contact
+	 */
+	Contact Search(const std::string& bookname, const std::string& name);
 
 	/**
 	 * @brief Import data.

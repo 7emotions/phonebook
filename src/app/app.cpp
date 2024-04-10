@@ -90,6 +90,31 @@ class PhoneBookApp::Impl : public NodeList<PhoneBook> {
 		node->data_.print();
 	}
 
+	Contact Search(const std::string& bookname, const std::string& name) {
+		auto node = head;
+
+		if (node == nullptr) {
+			std::cout << "There`s no phonebook." << std::endl;
+			return Contact();
+		}
+
+		while (node != nullptr) {
+			if (node->data_.getName() == bookname) {
+				break;
+			}
+			node = node->next_;
+		}
+
+		if (node == nullptr) {
+			std::cout << "There`s no phonebook named " << bookname << std::endl;
+			return Contact();
+		}
+
+		auto index = node->data_.search(Contact(name));
+		std::cout << node->data_[index];
+		return node->data_[index];
+	}
+
 	void ExImport(const std::string& bookname) {
 		std::ifstream in(bookname + ".dat", std::ios::binary);
 		if (!in.is_open()) {
@@ -176,4 +201,9 @@ void PhoneBookApp::ExImport(const std::string& path) {
 }
 void PhoneBookApp::ExExport(const std::string& bookname) {
 	return impl_->ExExport(bookname);
+}
+
+Contact PhoneBookApp::Search(const std::string& bookname,
+							 const std::string& name) {
+	return impl_->Search(bookname, name);
 }

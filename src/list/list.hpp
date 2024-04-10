@@ -62,6 +62,10 @@ class NodeList {
 	}
 
 	void push(const T& element) {
+		if (search(element) != -1) {
+			std::cout << "Element already exists." << std::endl;
+			return;
+		}
 		auto node = head;
 
 		if (node == nullptr) {

@@ -72,6 +72,8 @@ bool controller() {
 				  << "\tinfo\t"
 				  << "to list information about the command.\n"
 				  << "\texit\texit app.\n"
+				  << "\tsearch\t"
+				  << "to search data in phonebook.\n"
 				  << "\timport\t"
 				  << "to import data from file.\n"
 				  << "\texport\t"
@@ -203,10 +205,30 @@ bool controller() {
 					  << "\t[phonebook]\t\tname of phonebook to export. Use "
 						 "`list book` to check all phonebooks"
 					  << std::endl;
+		} else if (arg == "search") {
+			std::cout << "Usage:\n\tsearch <phonebook> <name>" << std::endl;
+			std::cout << "Arguments:\n"
+					  << "\t[phonebook]\tname of phonebook to search. Use "
+						 "`list book` to check all phonebooks"
+					  << std::endl
+					  << "\t[name]\t\tname of contact to search. " << std::endl;
 		} else {
 			std::cout << "Command not found. Use `help` to find out more"
 					  << std::endl;
 		}
+	} else if (pos->str() == "search") {
+		if (++pos == end) {
+			std::cout << "Missing values." << std::endl;
+			return true;
+		}
+		auto value1 = pos->str();
+		if (++pos == end) {
+			std::cout << "Missing values." << std::endl;
+			return true;
+		}
+		auto value2 = pos->str();
+
+		app.Search(value1, value2);
 	} else if (pos->str() == "import") {
 		if (++pos == end) {
 			std::cout << "Missing argument." << std::endl;
